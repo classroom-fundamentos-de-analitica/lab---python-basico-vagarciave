@@ -64,7 +64,7 @@ def pregunta_03():
 
     """
     data = getData()
-    lettersList = sorted(set([i for j in range(0, len(data)) for i in data[j][0]]))
+    letterList = sorted(set([i for j in range(0, len(data)) for i in data[j][0]]))
     totalList = [sum(int(fila[1]) for fila in data if fila[0] == letter) for letter in letterList]
     return list(zip(letterList, totalList ))
 
@@ -116,7 +116,7 @@ def pregunta_05():
 
     """
     data = getData()
-    lettersList = sorted(set([i for j in range(0, len(data)) for i in data[j][0]]))
+    letterList = sorted(set([i for j in range(0, len(data)) for i in data[j][0]]))
     maxList = [max(int(fila[1]) for fila in data if fila[0] == letter) for letter in letterList]
     minList = [min(int(fila[1]) for fila in data if fila[0] == letter) for letter in letterList]   
     return list(zip(letterList, maxList, minList))
@@ -144,6 +144,7 @@ def pregunta_06():
     ]
 
     """
+    data = getData()
     dicts = [data[i][4].split(',') for i in range(0,len(data))] 
     flatList = [item for elem in dicts for item in elem] 
     keyColumn = [flatList[i].split(':')[0] for i in range(0,len(flatList))]
@@ -237,7 +238,6 @@ def pregunta_09():
     dicts = [data[i][4].split(',') for i in range(0,len(data))] 
     flatList = [item for elem in dicts for item in elem] 
     keyColumn = [flatList[i].split(':')[0] for i in range(0,len(flatList))]
-    flatData = [flatList[i].split(':') for i in range(0,len(flatList))]
     
     keyList = sorted(set(keyColumn))
     totalList = [sum(row == key for row in keyColumn) for key in keyList]
@@ -312,7 +312,7 @@ def pregunta_12():
 
     """
     data = getData()
-    lettersList = sorted(set([i for j in range(0, len(data)) for i in data[j][0]]))
+    letterList = sorted(set([i for j in range(0, len(data)) for i in data[j][0]]))
     resDict = {}
     for letter in letterList:
         resDict[letter] = sum([int(elem.split(':')[1]) for j in range(0,len(data)) for elem in dicts[j] if data[j][0] == letter])
