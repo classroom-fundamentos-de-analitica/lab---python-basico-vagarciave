@@ -11,7 +11,10 @@ Utilice el archivo `data.csv` para resolver las preguntas.
 
 
 """
-
+def getData():
+    with open('data.csv') as f:
+        data = [list(row.split()) for row in f.read().split('\n')]
+    return data[:-1]
 
 def pregunta_01():
     """
@@ -21,8 +24,8 @@ def pregunta_01():
     214
 
     """
-    return
-
+    data = getData() 
+    return sum([int(i) for j in range(0, len(data)) for i in data[j][1]])
 
 def pregunta_02():
     """
@@ -39,7 +42,10 @@ def pregunta_02():
     ]
 
     """
-    return
+    data = getData()
+    lettersList = sorted(set([i for j in range(0, len(data)) for i in data[j][0]]))
+    totalList = [sum(fila[0] == letter for fila in data) for letter in letters]
+    return list(zip(lettersList, totalList ))
 
 
 def pregunta_03():
@@ -57,7 +63,12 @@ def pregunta_03():
     ]
 
     """
-    return
+    data = getData()
+    letterList = sorted(set([i for j in range(0, len(data)) for i in data[j][0]]))
+    totalList = [sum(int(fila[1]) for fila in data if fila[0] == letter) for letter in letterList]
+    return list(zip(letterList, totalList ))
+
+
 
 
 def pregunta_04():
@@ -82,7 +93,11 @@ def pregunta_04():
     ]
 
     """
-    return
+    data = getData()
+    monthColumn = [data[i][2].split('-')[1] for i in range(0,len(data))]
+    monthList = sorted(set(monthColumn))
+    totalList = [sum(fila == month for fila in monthColumn) for month in monthList]
+    return list(zip(monthList, totalList))
 
 
 def pregunta_05():
@@ -100,7 +115,11 @@ def pregunta_05():
     ]
 
     """
-    return
+    data = getData()
+    letterList = sorted(set([i for j in range(0, len(data)) for i in data[j][0]]))
+    maxList = [max(int(fila[1]) for fila in data if fila[0] == letter) for letter in letterList]
+    minList = [min(int(fila[1]) for fila in data if fila[0] == letter) for letter in letterList]   
+    return list(zip(letterList, maxList, minList))
 
 
 def pregunta_06():
@@ -125,8 +144,16 @@ def pregunta_06():
     ]
 
     """
-    return
-
+    data = getData()
+    dicts = [data[i][4].split(',') for i in range(0,len(data))] 
+    flatList = [item for elem in dicts for item in elem] 
+    keyColumn = [flatList[i].split(':')[0] for i in range(0,len(flatList))]
+    flatData = [flatList[i].split(':') for i in range(0,len(flatList))]
+    
+    keyList = sorted(set(keyColumn))
+    maxList = [max(int(fila[1]) for fila in flatData if fila[0] == key) for key in keyList]
+    minList = [min(int(fila[1]) for fila in flatData if fila[0] == key) for key in keyList]
+    return list(zip(keyList, minList, maxList))
 
 def pregunta_07():
     """
@@ -149,7 +176,12 @@ def pregunta_07():
     ]
 
     """
-    return
+    data = getData()
+    possibleCol2 = sorted(set([int(i[1]) for i in data]))
+    resultDict = dict.fromkeys(possibleCol2)
+    for value in possibleCol2:
+        resultDict[value] = [row[0] for row in data if row[1] == str(value)]
+    return list(resultDict.items())
 
 
 def pregunta_08():
@@ -174,7 +206,12 @@ def pregunta_08():
     ]
 
     """
-    return
+    data = getData()
+    possibleCol2 = sorted(set([int(i[1]) for i in data]))
+    resultDict = dict.fromkeys(possibleCol2)
+    for value in possibleCol2:
+        resultDict[value] = sorted(set([row[0] for row in data if row[1] == str(value)]))
+    return list(resultDict.items())
 
 
 def pregunta_09():
@@ -197,7 +234,14 @@ def pregunta_09():
     }
 
     """
-    return
+    data = getData()
+    dicts = [data[i][4].split(',') for i in range(0,len(data))] 
+    flatList = [item for elem in dicts for item in elem] 
+    keyColumn = [flatList[i].split(':')[0] for i in range(0,len(flatList))]
+    
+    keyList = sorted(set(keyColumn))
+    totalList = [sum(row == key for row in keyColumn) for key in keyList]
+    return list(zip(keyList, totalList))
 
 
 def pregunta_10():
@@ -218,7 +262,11 @@ def pregunta_10():
 
 
     """
-    return
+    data = getData()
+    col1 = [i for j in range(0, len(data)) for i in data[j][0]]
+    dictCol4 = [len(data[i][3].split(',')) for i in range(0,len(data))] 
+    dictCol5 = [len(data[i][4].split(',')) for i in range(0,len(data))] 
+    return list(zip(col1, dictCol4,dictCol5))
 
 
 def pregunta_11():
@@ -239,7 +287,13 @@ def pregunta_11():
 
 
     """
-    return
+    data = getData()
+    dicts = [data[i][3].split(',') for i in range(0,len(data))] 
+    flatList = [item for elem in dicts for item in elem] 
+    letterList = sorted(set(flatList))
+    totalList = [sum(int(fila[1]) for fila in data if letter) for letter in letterList]
+    return list(zip(letterList, totalList ))
+
 
 
 def pregunta_12():
@@ -257,4 +311,10 @@ def pregunta_12():
     }
 
     """
-    return
+    data = getData()
+    letterList = sorted(set([i for j in range(0, len(data)) for i in data[j][0]]))
+    resDict = {}
+    for letter in letterList:
+        resDict[letter] = sum([int(elem.split(':')[1]) for j in range(0,len(data)) for elem in dicts[j] if data[j][0] == letter])
+        
+    return resDict
